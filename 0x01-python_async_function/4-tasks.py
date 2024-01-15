@@ -9,6 +9,7 @@ def task_wait_random(max_delay: int) -> asyncio.Task:
     """Function that returns an asyncio.Task for wait_random"""
     return asyncio.create_task(wait_random(max_delay))
 
+
 async def task_wait_n(n: int, max_delay: int = 10) -> List[float]:
     """Asynchronous routine that spawns task_wait_random n times"""
 
