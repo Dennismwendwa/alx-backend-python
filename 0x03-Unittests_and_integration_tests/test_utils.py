@@ -26,10 +26,46 @@ class TestAccessNestedMap(TestCase):
         ({}, ("a",), KeyError),
         ({"a": 1}, ("a", "b"), KeyError),
     ])
-    def test_access_nested_map_mwthod_with_wrong_keys(self, nested_map: Dict,
+    def test_access_nested_map_method_with_wrong_keys(self, nested_map: Dict,
                                                       path: Tuple[str],
                                                       expected: Exception,
                                                       ) -> None:
         """Testing the access nested map method with wrong keys"""
         with self.assertRaises(expected):
             access_nested_map(nested_map, path)
+
+
+class TestGetJson(TestCase):
+    """Testing the get_json method"""
+
+    @parameterized.expand([
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False}),
+    ])
+    def test_get_json_method(self, test_url: str, test_payload: Dict) -> None:
+        """Testing get_json method with valid data"""
+        dic = {"json.return_value": test_payload}
+        with patch("requests.get", return_value=Mock(**dic)) as re:
+            self.assertEqual(get_json(test_url), test_payload)
+            re.assert_called_once_with(test_url)
+
+
+class TestMemoize(TestCase):
+    """Testing memoize method"""
+
+    def test_memoize_method(self) -> None:
+        class TestClass:
+
+            def a_method(self):
+                return 42
+
+            @memoize
+            def a_property(self):
+                return self.a_method()
+
+        with patch.object(TestClass, "a_method", return_value=lambda: 42,
+                          ) as remember:
+            test_c = TestClass()
+            self.assertEqual(test_c.a_property(), 42)
+            self.assertEqual(test_c.a_property(), 42)
+            remember.assert_called_once()
