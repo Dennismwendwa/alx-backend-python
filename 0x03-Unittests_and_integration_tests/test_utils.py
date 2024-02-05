@@ -42,7 +42,7 @@ class TestGetJson(TestCase):
         ("http://example.com", {"payload": True}),
         ("http://holberton.io", {"payload": False}),
     ])
-    def test_get_json_method(self, test_url: str, test_payload: Dict) -> None:
+    def test_get_json(self, test_url: str, test_payload: Dict) -> None:
         """Testing get_json method with valid data"""
         dic = {"json.return_value": test_payload}
         with patch("requests.get", return_value=Mock(**dic)) as re:
@@ -53,7 +53,7 @@ class TestGetJson(TestCase):
 class TestMemoize(TestCase):
     """Testing memoize method"""
 
-    def test_memoize_method(self) -> None:
+    def test_memoize(self) -> None:
         class TestClass:
 
             def a_method(self):
