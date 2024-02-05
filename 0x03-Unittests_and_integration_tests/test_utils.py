@@ -54,6 +54,7 @@ class TestMemoize(TestCase):
     """Testing memoize method"""
 
     def test_memoize(self) -> None:
+        """This is the memoize class"""
         class TestClass:
 
             def a_method(self):
