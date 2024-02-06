@@ -99,8 +99,9 @@ class TestIntegrationGithubOrgClient(TestCase):
 
         def send_requests(url):
             """send requests, (not true requests)"""
-            return Mock(**{"json.return_value": comm_urls[url]}
-                        ) if url in comm_urls else HTTPError
+            if url in comm_urls:
+                return Mock(**{"json.return_value": comm_urls[url]})
+            return HTTPError
 
         cls.get_patcher = patch("requests.get", side_effect=send_requests)
         cls.get_patcher.start()
